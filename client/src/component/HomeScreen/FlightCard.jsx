@@ -3,11 +3,13 @@ import { LuPlaneTakeoff, LuPlaneLanding } from "react-icons/lu";
 import { IoAirplaneSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import AirplaneAnimation from "../Utils/AirlplaneAnimation";
+import { useSnackbar } from "notistack";
 import axios from "axios";
 
 const baseUrl = "http://localhost:3000"; // Base URL for API requests
 
 function FlightCard({ flights = [] }) {
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
@@ -27,28 +29,56 @@ function FlightCard({ flights = [] }) {
       console.error("Flight not found");
       return;
     }
-    // Create reservation object to send to the backend
-    const response = await axios.post(
-      `${baseUrl}/api/reservation`,
-      {
-        numberOfPassengers: 1,
-        status: "ticket",
-        flightDetails: {
-          flightName: selectedFlight.flightName,
-          departure: selectedFlight.scheduleDateTime,
-          arrival: selectedFlight.estimatedLandingTime,
-          airline: selectedFlight.prefixIATA,
-          duration: calculateDuration(
-            selectedFlight.scheduleDateTime,
-            selectedFlight.estimatedLandingTime
-          ),
-          price: 200,
+    try {
+      // Create reservation object to send to the backend
+      const response = await axios.post(
+        `${baseUrl}/api/reservation`,
+        {
+          numberOfPassengers: 1,
+          status: "ticket",
+          flightDetails: {
+            flightName: selectedFlight.flightName,
+            departure: selectedFlight.scheduleDateTime,
+            arrival: selectedFlight.estimatedLandingTime,
+            airline: selectedFlight.prefixIATA,
+            duration: calculateDuration(
+              selectedFlight.scheduleDateTime,
+              selectedFlight.estimatedLandingTime
+            ),
+            price: 200,
+          },
         },
-      },
-      { withCredentials: true }
-    );
-    if (response.status === 200) {
-      navigate("/flights"); // Navigate to flights page on success
+        { withCredentials: true }
+      );
+      // If reservation success, display an success notification
+      if (response.status === 200) {
+        enqueueSnackbar(
+          "Your reservation has been successfully made! Thank you for choosing us.",
+          {
+            variant: "success",
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+          }
+        );
+        navigate("/flights"); // Navigate to flights page on success
+        return;
+      }
+      // If reservation fails, display an error notification
+    } catch (error) {
+      enqueueSnackbar(
+        "We're sorry, but there was an error processing your reservation. Please try again later or contact support.",
+        {
+          variant: "error",
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "left",
+          },
+        }
+      );
+      navigate("/");
+      console.error("Error fetching user data:", error);
     }
   };
 
