@@ -166,7 +166,7 @@ app.post("/api/login", async (req, res) => {
 });
 
 // Fetch flight data from an external API
-app.get("/api/flights", async (req, res) => {
+app.get("/api/flights", authMiddleware(), async (req, res) => {
   try {
     const response = await axios.get(BASE_URL, {
       // Set the headers required for the external API

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 function FilterCard({ setFilteredFlights, flights }) {
+  const [sortOption, setSortOption] = useState("recommended");
   const [allFlights, setAllFlights] = useState(flights); /*
   Since you changed the current one when you applied your filter,
    keep the flights so that you can show all the flights again 
@@ -150,16 +151,41 @@ function FilterCard({ setFilteredFlights, flights }) {
         .filter(Boolean)
     ),
   ];
+  // Sort flights based on selected option
+  const sortFlights = (data, option) => {
+    switch (option) {
+      case "currentToFuture":
+        return data.sort(
+          (a, b) => new Date(a.scheduleDateTime) - new Date(b.scheduleDateTime)
+        );
+      case "futureToCurrent":
+        return data.sort(
+          (a, b) => new Date(b.scheduleDateTime) - new Date(a.scheduleDateTime)
+        );
+      default:
+        return data;
+    }
+  };
+
+  // Sort flights whenever sortOption changes
+  useEffect(() => {
+    setFilteredFlights(sortFlights([...allFlights], sortOption));
+  }, [sortOption, allFlights]);
   return (
     <>
       {/* Sorting options */}
-      <div className="font-bold">
-        <p>Sort By</p>
-        <select className="w-10/12 ml-4 mt-2 font-normal" id="mySelect">
-          <option value="low">Lowest Price</option>
-          <option value="high">Highest Price</option>
-        </select>
-      </div>
+      <p className="font-bold">Sort By</p>
+      <select
+        className="px-2 py-1 ml-1"
+        value={sortOption}
+        onChange={(e) => setSortOption(e.target.value)}
+      >
+        <option value="recommended" disabled>
+          Recommended
+        </option>
+        <option value="currentToFuture">From Present to Future</option>
+        <option value="futureToCurrent">From Future to Present</option>
+      </select>
       {/* Arrival Time Filter */}
       <div className="space-y-2">
         <p className="font-bold">Arrival Time</p>
