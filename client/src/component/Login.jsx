@@ -11,6 +11,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [photo, setPhoto] = useState("");
   const [variant, setVariant] = useState("login");
   const navigate = useNavigate();
 
@@ -67,11 +68,19 @@ function Login() {
   // If register is successful
   const register = async () => {
     try {
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("name", name);
+      formData.append("password", password);
+
+      if (photo) {
+        formData.append("photo", photo);
+      }
       // Send a POST request to the registration API endpoint with email,name,password information
-      const response = await axios.post(`${baseUrl}/api/register`, {
-        email,
-        name,
-        password,
+      const response = await axios.post(`${baseUrl}/api/register`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Required for uploading files (photo)
+        },
       });
       // Success  notification
       if (response.status === 200) {
@@ -98,6 +107,7 @@ function Login() {
       setEmail("");
       setPassword("");
       setName("");
+      setPhoto(null);
       console.log(error);
     }
   };
@@ -133,6 +143,13 @@ function Login() {
                 value={password}
                 type="password"
               />
+              {variant === "register" && (
+                <input
+                  type="file"
+                  id="file"
+                  onChange={(e) => setPhoto(e.target.files[0])}
+                />
+              )}
             </div>
             <button
               onClick={variant === "login" ? login : register}

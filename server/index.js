@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import axios from "axios";
+import axios, { formToJSON } from "axios";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -8,7 +8,8 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { PrismaClient } from "@prisma/client";
 import authMiddleware from "./utils/authMiddleWare.js";
-
+import multer from "multer";
+import { Storage } from "@google-cloud/storage";
 const app = express();
 const prisma = new PrismaClient();
 const PORT = 3000;
@@ -31,10 +32,21 @@ const BASE_URL = process.env.BASE_URL;
 const API_KEY = process.env.API_KEY;
 const APPLICATION_ID = process.env.APPLICATION_ID;
 
+const upload = multer({ storage: multer.memoryStorage() });
+
+// Initialize Google Cloud Storage with the specified key file for authentication
+const storage = new Storage({
+  keyFilename: "./key.json",
+});
+
+// Define the name of the Google Cloud Storage bucket where files will be uploaded
+const bucketName = "plane-scape-bucket";
+
 // User registration endpoint
-app.post("/api/register", async (req, res) => {
+app.post("/api/register", upload.single("photo"), async (req, res) => {
   // GET user register info from body
   const { email, name, password } = await req.body;
+  let photoUrl = null;
 
   try {
     // Check if a user already exists with the provided email
@@ -48,12 +60,37 @@ app.post("/api/register", async (req, res) => {
     }
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
+
+    if (req.file) {
+      // Create a reference to the blob in the specified bucket using the original file name
+      const blob = storage.bucket(bucketName).file(req.file.originalname);
+      const blobStream = blob.createWriteStream({ resumable: false });
+
+      // Use a Promise to handle the blob stream's events
+      await new Promise((resolve, reject) => {
+        blobStream.on("error", (err) => {
+          console.error("Blob stream error:", err);
+          reject(err);
+        });
+
+        blobStream.on("finish", () => {
+          // Construct the public URL of the uploaded photo upon successful upload
+          photoUrl = `https://storage.googleapis.com/${bucketName}/${blob.name}`;
+          resolve();
+        });
+        blobStream.end(req.file.buffer); // End the stream with the file buffer
+      });
+    } else {
+      return res.status(400).json({ error: "Photo is required" });
+    }
+
     // Create a new user in the db
     const user = await prisma.user.create({
       data: {
         email,
         firstName: name,
         password: hashedPassword,
+        photoUrl,
         createdAt: new Date(),
       },
     });
