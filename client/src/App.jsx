@@ -2,7 +2,7 @@ import "./App.css";
 import { SnackbarProvider } from "notistack";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./component/HomeScreen/Home";
-import Login from "./component/Login";
+import Login from "./component/LoginScreen/Login";
 import Header from "./component/Header";
 import FlightsScreen from "./component/FlightScreen/FlightsScreen";
 

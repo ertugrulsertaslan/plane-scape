@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Input from "./Input";
 import { useSnackbar } from "notistack";
-
+import { Button } from "@mui/material";
 const baseUrl = "http://localhost:3000"; // Base URL for API requests
 
 function Login() {
@@ -144,11 +144,23 @@ function Login() {
                 type="password"
               />
               {variant === "register" && (
-                <input
-                  type="file"
-                  id="file"
-                  onChange={(e) => setPhoto(e.target.files[0])}
-                />
+                <Button
+                  variant="contained"
+                  component="label"
+                  sx={{
+                    backgroundColor: "#a78bfa",
+                    color: "white",
+                    "&:hover": { backgroundColor: "#8b5cf6" },
+                  }}
+                >
+                  Upload File
+                  <input
+                    type="file"
+                    hidden
+                    id="file"
+                    onChange={(e) => setPhoto(e.target.files[0])}
+                  />
+                </Button>
               )}
             </div>
             <button
