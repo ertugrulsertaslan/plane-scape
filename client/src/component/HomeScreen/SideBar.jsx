@@ -2,8 +2,8 @@ import { MdOutlineDirectionsCarFilled, MdDateRange } from "react-icons/md";
 import { FaHotel, FaUmbrellaBeach } from "react-icons/fa6";
 function SideBar() {
   return (
-    <div className="col-span-12 sm:grid-rows-1 xl:col-span-3 xl:grid-rows-3 px-5 flex flex-col sm:flex-row xl:flex-col justify-between mt-16 xl:m-0 space-x-2 md:space-x-0 space-y-4 sm:space-y-0">
-      <div className="w-full h-44 md:h-64 flex justify-center items-center py-2 md:py-0 lg:px-4 relative">
+    <div className="col-span-12 sm:grid-rows-1 xl:col-span-3 xl:grid-rows-3 px-5 flex flex-col sm:flex-row xl:flex-col justify-between mt-16 xl:m-0 space-x-2 lg:space-x-0 space-y-4 md:space-y-0">
+      <div className="w-full h-44 md:h-64 flex justify-center items-center py-2 lg:py-0 lg:px-4 relative">
         <img
           src="/src/assets/carHoliday.jpg"
           className="object-cover w-full h-full rounded-xl"
