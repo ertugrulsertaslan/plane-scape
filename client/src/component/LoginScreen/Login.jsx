@@ -153,7 +153,7 @@ function Login() {
                     "&:hover": { backgroundColor: "#8b5cf6" },
                   }}
                 >
-                  Upload File
+                  Upload Photo
                   <input
                     type="file"
                     hidden
