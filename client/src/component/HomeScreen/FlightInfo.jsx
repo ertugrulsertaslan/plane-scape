@@ -5,11 +5,13 @@ function FlightInfo({ filteredFlights, setFilteredFlights }) {
   return (
     <>
       <div className="grid grid-cols-12 mt-5">
-        <div className="col-span-12 md:col-span-9 overflow-y-auto h-[540px] scrollbar-hide space-y-4">
+        {/*/ dont show scrollbar add classname scrollbar-hide */}
+        <div className="col-span-12 md:col-span-9 overflow-y-auto h-[540px] space-y-4">
           <FlightCard flights={filteredFlights} />
         </div>
         <div className="col-span-12 md:col-span-3 h-[530px] overflow-hidden text-left relative">
-          <div className="overflow-y-auto scrollbar-hide h-[520px] space-y-6 p-5 mt-10 md:m-0">
+          {/*/ dont show scrollbar add classname scrollbar-hide */}
+          <div className="overflow-y-auto  h-[520px] space-y-6 p-5 mt-10 md:m-0">
             <FilterCard
               flights={filteredFlights}
               setFilteredFlights={setFilteredFlights}
