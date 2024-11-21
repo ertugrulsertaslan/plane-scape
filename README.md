@@ -206,6 +206,19 @@ This section outlines the steps to store user-uploaded photos in a Google Cloud 
 ### 8. Access Uploaded Files 📂
 - Files can be accessed via their public URLs if set, or programmatically through the Google Cloud Storage client.
 
+## Usage Details 📋
+
+1. **User Registration and Login** 🔐: To use the application, you need to create an account first. After registering, you can log in to access personalized features.
+
+2. **Flight Search** ✈️: From the homepage, you can search for available flights and view detailed information. You can filter search results by airport, date, time, and number of layovers.
+
+3. **Reservation Management** 🗓️: After making a flight reservation, you can view your bookings on the "My Flights" page.
+
+4. **Responsive Design** 📱: The application adapts to different screen sizes, providing a seamless experience on mobile devices.
+
+5. **Notifications** 🔔: You will receive error and success notifications for actions such as registration, login, filtering, and reservation.
+
+
 
 ## License 📄
 
