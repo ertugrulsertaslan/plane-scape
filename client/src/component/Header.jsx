@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const baseUrl = "http://localhost:3000"; // Base URL for API requests
+const baseUrl = "http://localhost:5000"; // Base URL for API requests
 
 function Header() {
   const navigate = useNavigate();

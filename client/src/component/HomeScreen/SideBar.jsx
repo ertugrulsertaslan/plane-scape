@@ -1,4 +1,4 @@
-import { MdOutlineDirectionsCarFilled, MdDateRange } from "react-icons/md";
+import { MdOutlineDirectionsCarFilled } from "react-icons/md";
 import { FaHotel, FaUmbrellaBeach } from "react-icons/fa6";
 function SideBar() {
   return (

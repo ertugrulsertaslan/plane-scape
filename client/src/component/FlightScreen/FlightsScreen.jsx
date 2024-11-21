@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import axios from "axios";
 
-const baseUrl = "http://localhost:3000"; // Base URL for API requests
+const baseUrl = "http://localhost:5000"; // Base URL for API requests
 
 function FlightsScreen() {
   //console.log("Location state:", location.state);

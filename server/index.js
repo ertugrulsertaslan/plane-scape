@@ -12,7 +12,7 @@ import multer from "multer";
 import { Storage } from "@google-cloud/storage";
 const app = express();
 const prisma = new PrismaClient();
-const PORT = 3000;
+const PORT = 5000;
 dotenv.config();
 
 // Middleware setup
@@ -40,14 +40,14 @@ const storage = new Storage({
 });
 
 // Define the name of the Google Cloud Storage bucket where files will be uploaded
-const bucketName = "plane-scape-bucket";
+const bucketName = "plane-scape-buckett";
 
 // User registration endpoint
 app.post("/api/register", upload.single("photo"), async (req, res) => {
   // GET user register info from body
   const { email, name, password } = await req.body;
   let photoUrl = null;
-
+  console.log(email, name, password, photoUrl);
   try {
     // Check if a user already exists with the provided email
     const existingUser = await prisma.user.findUnique({

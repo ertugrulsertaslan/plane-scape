@@ -6,7 +6,7 @@ import axios from "axios";
 // Memoizing the SideBar component to optimize performance
 const MemoizedSideBar = React.memo(SideBar);
 
-const baseUrl = "http://localhost:3000"; // Base URL for API requests
+const baseUrl = "http://localhost:5000"; // Base URL for API requests
 
 function Home() {
   const [flights, setFlights] = useState([]);
@@ -22,7 +22,6 @@ function Home() {
       setFlights(response.data.flights);
       setFilteredFlights(response.data.flights);
     } catch (error) {
-      setError(error.message);
       console.error("An error occurred while fetching", error);
     }
   };

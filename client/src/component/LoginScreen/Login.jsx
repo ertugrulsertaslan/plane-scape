@@ -4,7 +4,7 @@ import axios from "axios";
 import Input from "./Input";
 import { useSnackbar } from "notistack";
 import { Button } from "@mui/material";
-const baseUrl = "http://localhost:3000"; // Base URL for API requests
+const baseUrl = "http://localhost:5000"; // Base URL for API requests
 
 function Login() {
   const { enqueueSnackbar } = useSnackbar();
@@ -96,6 +96,7 @@ function Login() {
       }
       // If Register fails, display an error notification
     } catch (error) {
+      console.log(email, password, name, photo);
       enqueueSnackbar(" Please enter a valid email address and password.", {
         variant: "error",
         anchorOrigin: {
